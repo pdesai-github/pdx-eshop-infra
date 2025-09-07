@@ -1,0 +1,58 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {},
+  "variables": {},
+  "resources": [
+    {
+      "type": "Microsoft.DocumentDB/databaseAccounts",
+      "apiVersion": "2021-04-15",
+      "name": "eshop-cosmosdb-dev",
+      "location": "East US",
+      "kind": "GlobalDocumentDB",
+      "properties": {
+        "databaseAccountOfferType": "Standard",
+        "locations": [
+          {
+            "locationName": "East US",
+            "failoverPriority": 0
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases",
+      "apiVersion": "2021-04-15",
+      "name": "eshop-cosmosdb-dev/eshopdb",
+      "dependsOn": [
+        "[resourceId('Microsoft.DocumentDB/databaseAccounts', 'eshop-cosmosdb-dev')]"
+      ],
+      "properties": {
+        "resource": {
+          "id": "eshopdb"
+        },
+        "options": {}
+      }
+    },
+    {
+      "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers",
+      "apiVersion": "2021-04-15",
+      "name": "eshop-cosmosdb-dev/eshopdb/products",
+      "dependsOn": [
+        "[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', 'eshop-cosmosdb-dev', 'eshopdb')]"
+      ],
+      "properties": {
+        "resource": {
+          "id": "products",
+          "partitionKey": {
+            "paths": [
+              "/id"
+            ],
+            "kind": "Hash"
+          }
+        },
+        "options": {}
+      }
+    }
+  ]
+}
