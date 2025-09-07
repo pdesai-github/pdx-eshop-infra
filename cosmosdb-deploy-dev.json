@@ -13,6 +13,10 @@
     "eshopCosmosdbProductsContainer": {
       "type": "string",
       "defaultValue": "products"
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]"
     }
   },
   "variables": {},
