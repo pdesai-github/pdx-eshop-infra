@@ -1,1 +1,39 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
 
+trigger:
+- master
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  azureServiceConnection: 'pdx-eshop-rg'
+
+stages:
+- stage: Deploy-CosmosDB-Dev
+  displayName: "Deploy ARM template"
+  variables:
+    - group: EShopDev
+  jobs:
+  - deployment: DeployInfra
+    environment: 'dev'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: self
+          - task: AzureResourceManagerTemplateDeployment@3
+            displayName: 'Deploy ARM template'
+            inputs:
+              deploymentScope: 'Resource Group'
+              azureResourceManagerConnection: $(azureServiceConnection)
+              subscriptionId: $(subscriptionId)
+              action: 'Create Or Update Resource Group'
+              resourceGroupName: $(resourceGroup)
+              location: $(location)
+              templateLocation: 'Linked artifact'
+              csmFile: '$(Build.SourcesDirectory)/cosmosdb-deploy-dev.json'
+              deploymentMode: 'Incremental'          
