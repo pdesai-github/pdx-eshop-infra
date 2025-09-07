@@ -1,13 +1,26 @@
 {
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
-  "parameters": {},
+  "parameters": {
+    "eshopCosmosdbAcc": {
+      "type": "string",
+      "defaultValue": "eshop-cosmosdb-dev"
+    },
+    "eshopCosmosdbDatabase": {
+      "type": "string",
+      "defaultValue": "eshopdb"
+    },
+    "eshopCosmosdbProductsContainer": {
+      "type": "string",
+      "defaultValue": "products"
+    }
+  },
   "variables": {},
   "resources": [
     {
       "type": "Microsoft.DocumentDB/databaseAccounts",
       "apiVersion": "2021-04-15",
-      "name": "[[parameters('eshopCosmosdbAcc')]",
+      "name": "[parameters('eshopCosmosdbAcc')]",
       "location": "East US",
       "kind": "GlobalDocumentDB",
       "properties": {
@@ -23,9 +36,9 @@
     {
       "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases",
       "apiVersion": "2021-04-15",
-      "name": "[[parameters('eshopCosmosdbAcc')]/[parameters('eshopCosmosdbDatabase')]",
+      "name": "[format('{0}/{1}', parameters('eshopCosmosdbAcc'), parameters('eshopCosmosdbDatabase'))]",
       "dependsOn": [
-        "[resourceId('Microsoft.DocumentDB/databaseAccounts', '[[parameters('eshopCosmosdbAcc')]')]"
+        "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('eshopCosmosdbAcc'))]"
       ],
       "properties": {
         "resource": {
@@ -37,9 +50,9 @@
     {
       "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers",
       "apiVersion": "2021-04-15",
-      "name": "[[parameters('eshopCosmosdbAcc')]/[parameters('eshopCosmosdbDatabase')]/[parameters('eshopCosmosdbProductsContainer')]",
+      "name": "[format('{0}/{1}/{2}', parameters('eshopCosmosdbAcc'), parameters('eshopCosmosdbDatabase'), parameters('eshopCosmosdbProductsContainer'))]",
       "dependsOn": [
-        "[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', '[[parameters('eshopCosmosdbAcc')]', '[parameters('eshopCosmosdbDatabase')]')]"
+        "[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', parameters('eshopCosmosdbAcc'), parameters('eshopCosmosdbDatabase'))]"
       ],
       "properties": {
         "resource": {
