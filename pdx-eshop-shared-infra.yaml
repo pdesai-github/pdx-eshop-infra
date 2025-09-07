@@ -19,7 +19,7 @@ stages:
     - group: EShopDev
   jobs:
   - deployment: DeployInfra
-    environment: 'dev'
+    environment: 'EShop-Dev'
     strategy:
       runOnce:
         deploy:
