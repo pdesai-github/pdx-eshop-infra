@@ -13,7 +13,7 @@ variables:
   azureServiceConnection: 'pdx-eshop-rg'
 
 stages:
-- stage: Deploy-CosmosDB-Dev
+- stage: DeployCosmosDBDev
   displayName: "Deploy ARM template"
   variables:
     - group: EShopDev
