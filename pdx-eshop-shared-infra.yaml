@@ -36,4 +36,8 @@ stages:
               location: $(location)
               templateLocation: 'Linked artifact'
               csmFile: '$(Build.SourcesDirectory)/cosmosdb-deploy-dev.json'
-              deploymentMode: 'Incremental'          
+              deploymentMode: 'Incremental'
+              overrideParameters: >
+                -eshopCosmosdbAcc "$(cosmosdbAcc)"
+                -eshopCosmosdbDatabase "$(cosmosdbDatabase)"
+                -eshopCosmosdbProductsContainer "$(cosmosdbProductsContainer)"

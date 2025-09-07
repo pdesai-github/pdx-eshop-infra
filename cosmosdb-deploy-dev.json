@@ -7,7 +7,7 @@
     {
       "type": "Microsoft.DocumentDB/databaseAccounts",
       "apiVersion": "2021-04-15",
-      "name": "eshop-cosmosdb-dev",
+      "name": "[[parameters('eshopCosmosdbAcc')]",
       "location": "East US",
       "kind": "GlobalDocumentDB",
       "properties": {
@@ -23,13 +23,13 @@
     {
       "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases",
       "apiVersion": "2021-04-15",
-      "name": "eshop-cosmosdb-dev/eshopdb",
+      "name": "[[parameters('eshopCosmosdbAcc')]/[parameters('eshopCosmosdbDatabase')]",
       "dependsOn": [
-        "[resourceId('Microsoft.DocumentDB/databaseAccounts', 'eshop-cosmosdb-dev')]"
+        "[resourceId('Microsoft.DocumentDB/databaseAccounts', '[[parameters('eshopCosmosdbAcc')]')]"
       ],
       "properties": {
         "resource": {
-          "id": "eshopdb"
+          "id": "[parameters('eshopCosmosdbDatabase')]"
         },
         "options": {}
       }
@@ -37,13 +37,13 @@
     {
       "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers",
       "apiVersion": "2021-04-15",
-      "name": "eshop-cosmosdb-dev/eshopdb/products",
+      "name": "[[parameters('eshopCosmosdbAcc')]/[parameters('eshopCosmosdbDatabase')]/[parameters('eshopCosmosdbProductsContainer')]",
       "dependsOn": [
-        "[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', 'eshop-cosmosdb-dev', 'eshopdb')]"
+        "[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', '[[parameters('eshopCosmosdbAcc')]', '[parameters('eshopCosmosdbDatabase')]')]"
       ],
       "properties": {
         "resource": {
-          "id": "products",
+          "id": "[parameters('eshopCosmosdbProductsContainer')]",
           "partitionKey": {
             "paths": [
               "/id"
