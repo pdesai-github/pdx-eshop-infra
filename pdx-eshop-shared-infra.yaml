@@ -41,3 +41,4 @@ stages:
                 -eshopCosmosdbAcc "$(cosmosdbAcc)"
                 -eshopCosmosdbDatabase "$(cosmosdbDatabase)"
                 -eshopCosmosdbProductsContainer "$(cosmosdbProductsContainer)"
+                -location "$(location)"
