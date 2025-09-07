@@ -21,16 +21,19 @@
       "type": "Microsoft.DocumentDB/databaseAccounts",
       "apiVersion": "2021-04-15",
       "name": "[parameters('eshopCosmosdbAcc')]",
-      "location": "East US",
+      "location": "[parameters('location')]",
       "kind": "GlobalDocumentDB",
       "properties": {
         "databaseAccountOfferType": "Standard",
         "locations": [
           {
-            "locationName": "East US",
-            "failoverPriority": 0
+            "locationName": "[parameters('location')]",
+            "failoverPriority": 0,
+            "isZoneRedundant": false  
           }
-        ]
+        ],
+        "enableMultipleWriteLocations": false,
+        "enableAutomaticFailover": false
       }
     },
     {
