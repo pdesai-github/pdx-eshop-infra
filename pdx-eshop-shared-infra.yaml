@@ -42,3 +42,32 @@ stages:
                 -eshopCosmosdbDatabase "$(cosmosdbDatabase)"
                 -eshopCosmosdbProductsContainer "$(cosmosdbProductsContainer)"
                 -location "$(location)"
+- stage: DeployCosmosDBStage
+  displayName: "Deploy Cosmos DB - Stage"
+  variables:
+    - group: EShopStaging
+  jobs:
+  - deployment: DeployInfra
+    environment: 'EShop-Staging'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: self
+          - task: AzureResourceManagerTemplateDeployment@3
+            displayName: 'Deploy ARM template'
+            inputs:
+              deploymentScope: 'Resource Group'
+              azureResourceManagerConnection: $(azureServiceConnection)
+              subscriptionId: $(subscriptionId)
+              action: 'Create Or Update Resource Group'
+              resourceGroupName: $(resourceGroup)
+              location: $(location)
+              templateLocation: 'Linked artifact'
+              csmFile: '$(Build.SourcesDirectory)/cosmosdb-deploy-dev.json'
+              deploymentMode: 'Incremental'
+              overrideParameters: >
+                -eshopCosmosdbAcc "$(cosmosdbAcc)"
+                -eshopCosmosdbDatabase "$(cosmosdbDatabase)"
+                -eshopCosmosdbProductsContainer "$(cosmosdbProductsContainer)"
+                -location "$(location)"
