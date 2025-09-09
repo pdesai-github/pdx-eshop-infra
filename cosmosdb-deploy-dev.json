@@ -19,12 +19,14 @@
       "defaultValue": "[resourceGroup().location]"
     }
   },
-  "variables": {},
+  "variables": {
+    "eshopCosmosdbAccFullName": "[concat(parameters('eshopCosmosdbAcc'), '-', parameters('environment'))]"
+  },
   "resources": [
     {
       "type": "Microsoft.DocumentDB/databaseAccounts",
       "apiVersion": "2021-04-15",
-      "name": "[parameters('eshopCosmosdbAcc')]",
+      "name": "[variables('eshopCosmosdbAccFullName')]",
       "location": "[parameters('location')]",
       "kind": "GlobalDocumentDB",
       "properties": {
@@ -43,9 +45,9 @@
     {
       "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases",
       "apiVersion": "2021-04-15",
-      "name": "[format('{0}/{1}', parameters('eshopCosmosdbAcc'), parameters('eshopCosmosdbDatabase'))]",
+      "name": "[format('{0}/{1}', variables('eshopCosmosdbAccFullName'), parameters('eshopCosmosdbDatabase'))]",
       "dependsOn": [
-        "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('eshopCosmosdbAcc'))]"
+        "[resourceId('Microsoft.DocumentDB/databaseAccounts', variables('eshopCosmosdbAccFullName'))]"
       ],
       "properties": {
         "resource": {
@@ -57,9 +59,9 @@
     {
       "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers",
       "apiVersion": "2021-04-15",
-      "name": "[format('{0}/{1}/{2}', parameters('eshopCosmosdbAcc'), parameters('eshopCosmosdbDatabase'), parameters('eshopCosmosdbProductsContainer'))]",
+      "name": "[format('{0}/{1}/{2}', variables('eshopCosmosdbAccFullName'), parameters('eshopCosmosdbDatabase'), parameters('eshopCosmosdbProductsContainer'))]",
       "dependsOn": [
-        "[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', parameters('eshopCosmosdbAcc'), parameters('eshopCosmosdbDatabase'))]"
+        "[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', variables('eshopCosmosdbAccFullName'), parameters('eshopCosmosdbDatabase'))]"
       ],
       "properties": {
         "resource": {
