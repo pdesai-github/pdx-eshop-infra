@@ -13,13 +13,13 @@ variables:
   azureServiceConnection: 'pdx-eshop-rg'
 
 stages:
-- stage: DeployCosmosDBDev
-  displayName: "Deploy ARM template"
+- stage: Dev
+  displayName: "Dev"
   variables:
     - group: EShopDev
   jobs:
-  - deployment: DeployInfra
-    environment: 'EShop-Dev'
+  - deployment: Deploy_CosmosDB
+    environment: 'dev'
     strategy:
       runOnce:
         deploy:
@@ -42,13 +42,13 @@ stages:
                 -eshopCosmosdbDatabase "$(cosmosdbDatabase)"
                 -eshopCosmosdbProductsContainer "$(cosmosdbProductsContainer)"
                 -location "$(location)"
-- stage: DeployCosmosDBStage
-  displayName: "Deploy Cosmos DB - Stage"
+- stage: Staging
+  displayName: "Staging"
   variables:
     - group: EShopStaging
   jobs:
-  - deployment: DeployInfra
-    environment: 'EShop-Staging'
+  - deployment: Deploy_CosmosDB
+    environment: 'staging'
     strategy:
       runOnce:
         deploy:
