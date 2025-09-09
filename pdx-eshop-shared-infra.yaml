@@ -41,6 +41,7 @@ stages:
                 -eshopCosmosdbAcc "$(cosmosdbAcc)"
                 -eshopCosmosdbDatabase "$(cosmosdbDatabase)"
                 -eshopCosmosdbProductsContainer "$(cosmosdbProductsContainer)"
+                -environment "$(Environment.Name)"
                 -location "$(location)"
 - stage: Staging
   displayName: "Staging"
@@ -70,4 +71,5 @@ stages:
                 -eshopCosmosdbAcc "$(cosmosdbAcc)"
                 -eshopCosmosdbDatabase "$(cosmosdbDatabase)"
                 -eshopCosmosdbProductsContainer "$(cosmosdbProductsContainer)"
+                -environment "$(Environment.Name)"
                 -location "$(location)"
